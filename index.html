@@ -10,6 +10,8 @@
 
         <link rel="stylesheet" href="css/select2.min.css">
         <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/odometer-theme-default.css" />
+
         <style>
             body {
                 padding-top: 50px;
@@ -45,10 +47,14 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container text-center">
-        <h1>Wstawmy zęby <br> ustawie krajobrazowej</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut beatae ullam rem consequuntur eos soluta possimus, eius sed dicta aspernatur iusto voluptatibus quae voluptatum blanditiis.</p>
-        <p>Wsparło nas już <span data-counter>...</span> osób</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">CTA &raquo;</a></p>
+        <div class=" row">
+          <div class="jumbotron-inner col-md-8 col-md-offset-2">
+            <h1>Wstawmy zęby <br> ustawie krajobrazowej</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut beatae ullam rem consequuntur eos soluta possimus, eius sed dicta aspernatur iusto voluptatibus quae voluptatum blanditiis.</p>
+            <p>Wsparło nas już <span class="counter" data-counter>...</span> osób</p>
+            <p><a class="btn btn-primary btn-lg" href="#form" role="button">Wyślij list do swojego senatora &raquo;</a></p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -91,23 +97,32 @@
       </div>
 
       <div class="row">
-        <div class="col-md-3">
-          <h2>Powód 1</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+        <div class="col-md-6">
+          <h3>Kary nieadekwatne do zysków z nieregalnych reklam</h3>
+          <p>
+            Roczny dochód z nielegalnej reklamy na Hotelu MDM <strong>1,200,000 zł</strong><br>
+            Maksymalna grzywna wg. ustawy krajobrazowej <strong>5,000 zł</strong><br>
+          </p>
+          <p>Nielegalne reklamy przynoszą ogromne zyski każdego miesiąca, a osoby, które łamią prawo są obecnie bezkarne.</p>
+          <p>Sytuację miała zmienić ustawa krajobrazowa. Jeśli zostanie przyjęta w obecnym kształcie, tak się nie stanie. Dlaczego? Bo maksymalna kara, jaką będzie można wymierzyć to grzywna w wysokości 5 tys. zł. Sprawca otrzyma ją tylko raz, nawet jeśli reklama nie zostanie usunięta.</p>
         </div>
-        <div class="col-md-3">
-          <h2>Powód 2</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-       </div>
-       <div class="col-md-3">
-          <h2>Powód 3</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        </div>
-       <div class="col-md-3">
-          <h2>Powód 4</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+        <div class="col-md-6">
+          <img src="/img/szmata-mdm.jpg" alt="">
         </div>
       </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <img src="/img/szmata-szyld.jpg" alt="">
+        </div>
+        <div class="col-md-6">
+          <h3>Wielkoformatowe szmaty to szyldy?</h3>
+          <p>Ustawa krajobrazowa słusznie zwalnia od opłat reklamowych szyldy. Niestety, definiuje je tak szeroko, że za szyld można uznać także tak wielką szmatę, jak ta na zdjęciu obok.</p>
+          <p>Dlaczego? Bo wystarczy, że treść prezentowana na szmacie będzie miała związek  z działalnością prowadzoną w budynku, na którym została wywieszona.</p>
+        </div>
+      </div>
+
+
     </div>
 
     <hr>
@@ -138,17 +153,22 @@
           <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
         </div>
       </div>
+
+      <div class="row">
+        <div class="col-md-12 text-center"><a href="#">Pobierz projekt wszystkich poprawek w formacie PDF</a></div>  
+      </div>
+
     </div>
     
     <hr>
 
-    <div class="container">
+    <div class="container" id="form">
       
       <div class="row">
         <div class="col-md-12 text-center">
-          <h1>Napisz list do Senatoran <br/>   <small>Z twojego okregu</small>  </h1>
+          <h1>Napisz list do Senatora <small>Z twojego okregu</small>  </h1>
 
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum recusandae, nulla odio maiores pariatur, totam unde debitis rerum, tempora voluptas veritatis ut modi aliquam voluptate numquam id minus eius! Dolor.</p>
+          <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum recusandae, nulla odio maiores pariatur, totam unde debitis rerum, tempora voluptas veritatis ut modi aliquam voluptate numquam id minus eius! Dolor.</p><br><br>
         </div>
       </div>
 
@@ -186,27 +206,27 @@
 
           <div class="form-group">
             <label for="fromEmail" class="col-sm-3 control-label"></label>
-            <div class="col-sm-5">
+            <div class="col-sm-4">
               <input type="email" class="form-control" id="fromEmail"  name="fromEmail" placeholder="Twój email" required>
             </div>
           </div>
           
           <div class="form-group">
-            <label for="messageTitle" class="col-sm-3 control-label">Temat wiadomości</label>
+            <label for="messageTitle" class="col-sm-3 control-label">Temat</label>
             <div class="col-sm-9">
                <input type="text" class="form-control" id="messageTitle"  name="messageTitle" value="Prośba o wsprarcie poprawek w Ustawie krajobrazowej" required>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="messageBody" class="col-sm-3 control-label"></label>
+            <label for="messageBody" class="col-sm-3 control-label">Treść</label>
             <div class="col-sm-9">
               <textarea class="form-control" name="messageBody" id="messageBody" rows="18" required></textarea>
             </div>
           </div>
 
           <div class="form-group">
-              <div class="col-sm-offset-3 col-sm-3">
+              <div class="col-sm-offset-3 col-sm-6">
                 <button type="submit" class="btn btn-block btn-lg btn-success">Wyślij</button>
               </div>
           </div>
@@ -240,7 +260,8 @@
     <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
 
     <script src="js/vendor/bootstrap.min.js"></script>
-    <script src="js/vendor/select2.full.js"></script>
+    <script src="js/vendor/select2.js"></script>
+    <script src="js/libs.js"></script>
 
     <script src="js/data.js"></script>
     <script src="js/senators.js"></script>

@@ -1,3 +1,19 @@
+$(function() {
+  $('a[href*=#]:not([href=#])').click(function() {
+    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+      var target = $(this.hash);
+      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+      if (target.length) {
+        $('html,body').animate({
+          scrollTop: target.offset().top - 70
+        }, 1000);
+        return false;
+      }
+    }
+  });
+});
+
+
 // Simple JavaScript Templating
 // John Resig - http://ejohn.org/ - MIT Licensed
 (function(){
@@ -61,6 +77,8 @@ $(function() {
   var mandrillKey = '026t-Soj1CcaN0FPMNd0HA';
   var mandrillEndpoint = 'https://mandrillapp.com/api/1.0/messages/send.json';
   var emailFromEmail = 'kontakt@uratujmykrajobraz.pl';
+  
+  var odometer;
 
   var firebaseUrl = 'https://ratujmykrajobraz.firebaseio.com';
   var firebaseRef = new Firebase(firebaseUrl);
@@ -92,8 +110,15 @@ $(function() {
   };
 
   function counterInit() {
+    var odometer = new Odometer({
+      el: counterEl[0],
+      value: 0,
+    });
+
+    odometer.update(100)
+
     counterRef.on("value", function(snapshot) {
-      counterEl.text(snapshot.val() || 120)
+      odometer.update(snapshot.val())
     }, function (errorObject) {
       console.log("The read failed: " + errorObject.code);
     });
@@ -112,6 +137,7 @@ $(function() {
     });
     messageEl.val(msg);
   };
+
 
   function onFormSubmit(event) {
     event.preventDefault();

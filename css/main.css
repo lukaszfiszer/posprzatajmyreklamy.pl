@@ -4,9 +4,17 @@
    Author's custom styles
    ========================================================================== */
 
+h1, h2 {
+  font-weight: 400;
+}
 
+img {
+  max-width: 100%;
+}
 
-
+.modal-backdrop {
+  z-index: -1;
+}
 
 .select2-container + select {
     position:absolute;
@@ -17,9 +25,35 @@
     margin-top: -14px;
 }
 
+.counter {
+  background: #FFF;
+  color: #383838;
+  padding: 8px 12px;
+  margin: auto;
+  line-height: 1 !important;
+  border-radius: 4px;
+  font-weight: bold;
+  margin: 0 10px;
+}
 
+.jumbotron {
+  background-image: url('/img/hero-background.jpg');
+  background-size: cover;
+  background-position: 50% 40%;
 
+}
 
+@media screen and (min-width: 768px)  {
+  .jumbotron {
+    padding: 100px 0;
+  }
+}
+
+.jumbotron-inner {
+  background-color: rgba(0, 0, 0, 0.63);
+  color: #fff;
+  padding: 25px;
+}
 
 
 
