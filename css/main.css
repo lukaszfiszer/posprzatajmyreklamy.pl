@@ -1,0 +1,29 @@
+
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+
+
+
+
+.select2-container + select {
+    position:absolute;
+    display: block !important;
+    visibility: hidden;
+    height: 1px;
+    margin-left: 10px;
+    margin-top: -14px;
+}
+
+
+
+
+
+
+
+
+
+
+
