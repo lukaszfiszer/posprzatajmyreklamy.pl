@@ -39,8 +39,12 @@ img {
 .jumbotron {
   background-image: url('/img/hero-background.jpg');
   background-size: cover;
-  background-position: 50% 40%;
+  background-position: 50% 50%;
 
+}
+
+.jumbotron .btn-lg {
+  font-size: 1.2em;
 }
 
 @media screen and (min-width: 768px)  {
