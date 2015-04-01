@@ -1,6 +1,7 @@
+#!/usr/bin/env node
+
 var fs = require('fs');
 var casper = require('casper').create();
-
 
 casper.start('http://wybory2011.pkw.gov.pl/geo/pl/000000.html#tabs-2', function() {
     var results = [];
