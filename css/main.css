@@ -37,7 +37,7 @@ img {
 }
 
 .jumbotron {
-  background-image: url('../img/hero-background.jpg');
+   background-image: url('../img/hero-background.jpg'); 
   background-size: cover;
   background-position: 50% 50%;
 
@@ -53,12 +53,64 @@ img {
   }
 }
 
-.jumbotron-inner {
-  background-color: rgba(0, 0, 0, 0.63);
-  color: #fff;
-  padding: 25px;
+.jumbotron {
+  margin-bottom: 0px;
 }
 
+.jumbotron-inner {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 25px 5em;
+}
+
+.jumbotron h1 {
+  font-size: 4em;
+  margin-bottom: 0.3em;
+}
+
+.jumbotron .lead {
+  margin-bottom: 1.5em;
+}
+
+.jumbotron .btn {
+  margin-bottom: 1.5em;
+}
+
+section .container {
+  padding-top: 2em;
+  padding-bottom: 3em;
+}
+
+section .container h1 {
+  margin-bottom: 1em;
+}
+
+section .container h1:after {
+  content: '';
+  display: block;
+  margin: 30px auto 0 auto;
+  width: 25%;
+  border-bottom: 1px solid #666;
+}
+
+.alternate {
+  background-color: #eee;
+}
+
+.inverse {
+  background-color: #266C98;
+  color: #fff;
+}
+
+.inverse h1,
+.inverse h2,
+.inverse h3 {
+  color: #fff;
+}
+
+.inverse .container h1:after {
+  border-bottom: 1px solid #eee;
+}
 
 
 
