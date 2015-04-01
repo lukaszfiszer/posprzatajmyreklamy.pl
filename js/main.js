@@ -118,10 +118,14 @@ $(function() {
     odometer.update(100)
 
     counterRef.on("value", function(snapshot) {
-      odometer.update(snapshot.val())
+      odometer.update(snapshot.val());
     }, function (errorObject) {
       console.log("The read failed: " + errorObject.code);
     });
+
+    setTimeout(function() {
+      Firebase.goOffline();
+    }, 10000)
   };
 
   function onFormChange() {
@@ -173,7 +177,8 @@ $(function() {
       data: JSON.stringify(payload)
     });
 
-    
+    Firebase.goOnline();
+
     counterRef.transaction(function (current_value) {
       return (current_value || 0) + 1;
     });
@@ -184,6 +189,9 @@ $(function() {
 
     $('#thankYouModal').modal({})
 
+    setTimeout(function() {
+      Firebase.goOffline();
+    }, 10000)
   };
 
 
