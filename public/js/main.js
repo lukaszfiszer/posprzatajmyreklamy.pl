@@ -80,11 +80,6 @@ $(function() {
   
   var odometer;
 
-  var firebaseUrl = 'https://ratujmykrajobraz.firebaseio.com';
-  var firebaseRef = new Firebase(firebaseUrl);
-  var counterRef = firebaseRef.child('counter');
-  var messagesRef = firebaseRef.child('messages');
-
   var counterEl = $('[data-counter]');
   var districtSelector = $(".district-selector");
   var formEl = $('form');
@@ -112,20 +107,11 @@ $(function() {
   function counterInit() {
     var odometer = new Odometer({
       el: counterEl[0],
-      value: 0,
+      duration: 4000
     });
 
-    odometer.update(100)
+    odometer.update(counterEl.data('counter'))
 
-    counterRef.on("value", function(snapshot) {
-      odometer.update(snapshot.val());
-    }, function (errorObject) {
-      console.log("The read failed: " + errorObject.code);
-    });
-
-    setTimeout(function() {
-      Firebase.goOffline();
-    }, 10000)
   };
 
   function onFormChange() {
@@ -152,46 +138,17 @@ $(function() {
     data.toName = this.toName.value;
     data.district = this.district.value.split('-')[0];
 
-    var payload = {
-      key: mandrillKey,
-      async: false,
-      message: {
-        text: data.messageBody,
-        subject: data.messageTitle,
-        from_email: emailFromEmail,
-        from_name: data.fromName,
-        headers: {
-          "Reply-To": data.fromEmail
-        },
-        to: [{
-          email: data.toEmail,
-          name: data.toName
-        }]
-      }
-    }
-    
     $.ajax({type: "POST",
       contentType: 'application/json',
-      url: mandrillEndpoint,
+      url: '/messages',
       dataType: 'json',
-      data: JSON.stringify(payload)
+      data: JSON.stringify(data)
     });
 
-    Firebase.goOnline();
-
-    counterRef.transaction(function (current_value) {
-      return (current_value || 0) + 1;
-    });
-
-    messagesRef.push(data)
-    
     this.reset();
 
     $('#thankYouModal').modal({})
 
-    setTimeout(function() {
-      Firebase.goOffline();
-    }, 10000)
   };
 
 

@@ -1,0 +1,60 @@
+#!/usr/bin/env node
+
+var async = require('async');
+var _ = require('lodash');
+var Message = require('../models/message');
+var firebaseUrl = 'https://ratujmykrajobraz.firebaseio.com/messages.json';
+var request = require('request');
+
+function split(a, n) {
+    var len = a.length,out = [], i = 0;
+    while (i < len) {
+        var size = Math.ceil((len - i) / n--);
+        out.push(a.slice(i, i += size));
+    }
+    return out;
+}
+
+Message.where({}).count(function(err, count) {
+  if (count > 0) {
+    console.log('Found', count, 'messages in DB, skipping import');
+    process.exit();
+  } else {
+    console.log('No messages in DB, fetching messages from Firebase');
+
+    request({
+      url: firebaseUrl,
+      method: 'GET',
+      json: true
+    }, function(err, res, body) {
+      
+      console.log('Got response from firebase', res.statusCode);
+
+      var docs = _.map(body, function(obj, key) {
+        obj.firebaseId = key;
+        return obj;
+      });
+
+      console.log('Got', docs.length, 'messages');
+
+      async.each(split(docs, 10), function(subdocs, callback) {
+        console.log('Inserting docs', subdocs.length)
+        Message.collection.insert(subdocs, {}, function(err, res) {
+          if (err) {
+            return callback(err)
+          } else {
+            console.log('Successful write', res.result);
+            callback();
+          }
+        });
+      }, function(err){
+        if (err) {
+          console.log('Error!', err);
+        };
+        process.exit();
+      });
+
+    })
+  };
+
+ });
