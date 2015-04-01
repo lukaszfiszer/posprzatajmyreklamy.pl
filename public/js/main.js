@@ -84,6 +84,7 @@ $(function() {
   var districtSelector = $(".district-selector");
   var formEl = $('form');
   var messageEl = formEl.find('textarea');
+  var messageTmpl = Handlebars.compile(AppMessageTemplate);
 
   function districtSelectorInit() {
   
@@ -121,7 +122,7 @@ $(function() {
   }
 
   function updateMessage(senator) {
-    var msg = tmpl('mesageTemplate', {
+    var msg = messageTmpl({
       senator: senator,
       message: formEl.serializeObject()
     });

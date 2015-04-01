@@ -1,4 +1,4 @@
-var AppDistrictData = [{
+module.exports = [{
     "children": [{
         "id": "1-0",
         "text": "Powiat bolesławiecki"
