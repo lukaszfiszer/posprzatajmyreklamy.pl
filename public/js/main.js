@@ -135,12 +135,10 @@ $(function() {
     event.target.checkValidity();
     
     var data = $(this).serializeObject();
-    data.toEmail = this.toEmail.value;
-    data.toName = this.toName.value;
     data.district = this.district.value.split('-')[0];
 
     $.ajax({type: "POST",
-      contentType: 'application/json',
+      contentType: 'application/json; charset=utf-8',
       url: '/messages',
       dataType: 'json',
       data: JSON.stringify(data)

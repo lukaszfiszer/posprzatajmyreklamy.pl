@@ -29,6 +29,16 @@ var messageSchema = new mongoose.Schema({
   messageBody: {
     type: String,
     required: true,
+  },
+  messageTitle: {
+    type: String,
+    required: true
+  },
+  status: {
+    type: String,
+  },
+  sentLog: {
+    type: Object,
   }
 });
 
