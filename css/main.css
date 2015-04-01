@@ -36,6 +36,14 @@ img {
   margin: 0 10px;
 }
 
+.logo {
+  position: absolute;
+  width: 15%;
+  max-width: 120px;
+  top: 20px;
+  left: 20px;
+}
+
 .jumbotron {
    background-image: url('../img/hero-background.jpg'); 
   background-size: cover;
