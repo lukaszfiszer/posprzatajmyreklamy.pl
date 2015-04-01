@@ -138,7 +138,7 @@ var AppSenatorsData = [
     id: 46, name: 'Robert Mamątow', email: 'robert.mam@interia.pl', gender: 'm'
   },
   { 
-    id: 47, name: 'Maria Koc', gender: 'f'
+    id: 47, name: 'Maria Koc', email: 'senator.koc@gmail.com', gender: 'f'
   },
   { 
     id: 48, name: 'Waldemar Kraska', email: 'biuro@kraska.home.pl', gender: 'm'
@@ -159,7 +159,7 @@ var AppSenatorsData = [
     id: 53, name: 'Aleksander Świeykowski', email: 'biuro_senator_swieykowski@wp.pl', gender: 'm'
   },
   { 
-    id: 54, name: 'Janina Sagatowska', gender: 'f'
+    id: 54, name: 'Janina Sagatowska', email: 'kontakt@sagatowska.net', gender: 'f'
   },
   { 
     id: 55, name: 'Zdzisław Pupa', email: 'biuro@zdzislawpupa.pl', gender: 'm'
