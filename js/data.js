@@ -765,28 +765,28 @@ var AppDistrictData = [{
 }, {
     "children": [{
         "id": "32-0",
-        "text": "Kraków: Dzielnica II"
+        "text": "Kraków: Dzielnica II Grzegórzki"
     }, {
         "id": "32-1",
-        "text": "Kraków: Dzielnica III"
+        "text": "Kraków: Dzielnica III Prądnik Czerwony"
     }, {
         "id": "32-2",
-        "text": "Kraków: Dzielnica IV"
+        "text": "Kraków: Dzielnica IV Prądnik Biały"
     }, {
         "id": "32-3",
-        "text": "Kraków: Dzielnica XIV"
+        "text": "Kraków: Dzielnica XIV Czyżyny"
     }, {
         "id": "32-4",
-        "text": "Kraków: Dzielnica XV"
+        "text": "Kraków: Dzielnica XV Mistrzejowice"
     }, {
         "id": "32-5",
-        "text": "Kraków: Dzielnica XVI"
+        "text": "Kraków: Dzielnica XVI Bieńczyce"
     }, {
         "id": "32-6",
-        "text": "Kraków: Dzielnica XVII"
+        "text": "Kraków: Dzielnica XVII Wzgórza Krzesławickie "
     }, {
         "id": "32-7",
-        "text": "Kraków: Dzielnica XVIII"
+        "text": "Kraków: Dzielnica XVIII Nowa Huta"
     }],
     "content": "część obszaru miasta na prawach powiatu Kraków: Dzielnica II, Dzielnica III, Dzielnica IV, Dzielnica XIV, Dzielnica XV, Dzielnica XVI, Dzielnica XVII, Dzielnica XVIII",
     "id": 32,
@@ -794,34 +794,34 @@ var AppDistrictData = [{
 }, {
     "children": [{
         "id": "33-0",
-        "text": "Kraków: Dzielnica I"
+        "text": "Kraków: Dzielnica I Stare Miasto"
     }, {
         "id": "33-1",
-        "text": "Kraków: Dzielnica V"
+        "text": "Kraków: Dzielnica V Krowodrza"
     }, {
         "id": "33-2",
-        "text": "Kraków: Dzielnica VI"
+        "text": "Kraków: Dzielnica VI Bronowice"
     }, {
         "id": "33-3",
-        "text": "Kraków: Dzielnica VII"
+        "text": "Kraków: Dzielnica VII Zwierzyniec"
     }, {
         "id": "33-4",
-        "text": "Kraków: Dzielnica VIII"
+        "text": "Kraków: Dzielnica VIII Dębniki"
     }, {
         "id": "33-5",
-        "text": "Kraków: Dzielnica IX"
+        "text": "Kraków: Dzielnica IX Łagiewniki-Borek Fałęcki"
     }, {
         "id": "33-6",
-        "text": "Kraków: Dzielnica X"
+        "text": "Kraków: Dzielnica X Swoszowice"
     }, {
         "id": "33-7",
-        "text": "Kraków: Dzielnica XI"
+        "text": "Kraków: Dzielnica XI Podgórze Duchackie"
     }, {
         "id": "33-8",
-        "text": "Kraków: Dzielnica XII"
+        "text": "Kraków: Dzielnica XII Bieżanów-Prokocim"
     }, {
         "id": "33-9",
-        "text": "Kraków: Dzielnica XIII"
+        "text": "Kraków: Dzielnica XIII Podgórze"
     }],
     "content": "część obszaru miasta na prawach powiatu Kraków: Dzielnica I, Dzielnica V, Dzielnica VI, Dzielnica VII, Dzielnica VIII, Dzielnica IX, Dzielnica X, Dzielnica XI, Dzielnica XII, Dzielnica XIII",
     "id": 33,
