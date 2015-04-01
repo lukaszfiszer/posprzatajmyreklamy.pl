@@ -112,7 +112,14 @@ section .container h1:after {
   border-bottom: 1px solid #eee;
 }
 
+.logos {
+  text-align: center;
+}
 
+.logos img {
+  max-width: 150px;
+  padding: 15px;
+}
 
 
 
