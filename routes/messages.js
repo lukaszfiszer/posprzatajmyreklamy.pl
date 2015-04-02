@@ -13,7 +13,17 @@ var messagesRouter = express.Router();
 var mandrillClient = new mandrill.Mandrill(process.env.MANDRILL_APIKEY || '026t-Soj1CcaN0FPMNd0HA');
 var messageTmpl = Handlebars.compile(messageText);
 
-messagesRouter.post('/', function(req, res, next) {
+
+messagesRouter.post('/', function checkDuplicateEmail(req, res, next) {
+  Message.find({fromEmail: req.body.fromEmail}, function(err, data) {
+    if (data.length > 0) {
+      res.status(409).send('Sender email already used');
+      return;
+    } else {
+      next();
+    }
+  });
+}, function(req, res, next) {
 
   var district = parseInt(req.body.district);
   var matchedSenator = senators[district - 1];
