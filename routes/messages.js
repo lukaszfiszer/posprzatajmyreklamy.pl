@@ -1,65 +1,74 @@
 var _ = require('lodash');
 var express = require('express');
 var Handlebars = require('handlebars');
-var mandrill = require('mandrill-api/mandrill');
 var Message = require('../models/message');
 var senators = require('../data/senators');
 
 var messagesRouter = express.Router();
 
-var mandrillClient = new mandrill.Mandrill(process.env.MANDRILL_APIKEY || '026t-Soj1CcaN0FPMNd0HA');
-
 messagesRouter.post('/', Message.blockEmailDuplicates(), function(req, res, next) {
-;
-  var message = req.body;
-  var district = parseInt(message.district);
-  var matchedSenator = senators[district - 1];
 
-  message.toName = matchedSenator.name;
-  message.toEmail = matchedSenator.email;
+  var district = parseInt(req.body.district);
+  var senator = senators[district - 1];
 
-  message.diff = Message.getMessageDiff(message);
+  var message = new Message(_.extend(req.body, {
+    toName: senator.name,
+    toEmail: senator.email
+  }));
 
   if (message.diff < 20) {
-    mandrillClient.messages.send({
-      'message': {
-        'text': message.messageBody,
-        'subject': message.messageTitle,
-        'from_email': 'kontakt@posprzatajmyreklamy.pl',
-        'from_name': message.fromName,
-        'to': [{
-                'email': message.toEmail ,
-                'name': message.toName,
-                'type': 'to'
-            }],
-        'headers': {
-            'Reply-To': message.fromEmail
-        },
-        'auto_html': true
-      }
-  }, function(result) {
-      message.status = 'send-success';
-      message.sentLog = result;
-      save(res, message);
-    }, function(err) {
-      message.status = 'send-failure';
-      message.sentLog = err;
-      save(res, message);
+    message.send(function(err) {
+      saveMessage(message);
     });
-
+  
   } else {
-    message.status = 'modarate-waiting';
-    save(res, message);
-  }
-
-  function save(res, message) {
-    Message.create(message, function(err, body) {
-      if (err) {
-        return next(err);
-      }
-      res.send(body);
+    message.sendToModeration(function(err) {
+      saveMessage(message);
     });
   }
+
+  function saveMessage(message) {
+    message.save(function(err, message) {
+      if (err) {
+        next(err);
+      } else {
+        res.send(message);
+      }
+    });
+  }
+
+});
+
+messagesRouter.get('/:id/moderate', function(req, res, next) {
+  
+  Message.findOne({
+    _id: req.params.id,
+    token: req.query.token,
+    status: 'modarate-waiting'
+  }, function(err, message) {
+    
+    if (err) {
+      return next(err);
+    } else
+
+    if (!message) {
+      res.status(404).send('Message not found');
+    
+    } else {
+      message.send(function(err) {
+        if (err) {
+          return next(err);
+        }
+        message.save(function() {
+          if (err) {
+            return next(err);
+          }
+          res.status(200).send('OK. Message send.');
+        });
+      });
+    }
+
+  });
 
 });
 

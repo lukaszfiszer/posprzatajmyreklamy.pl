@@ -1,12 +1,18 @@
-var JsDiff = require('diff');
+var fs = require('fs');
 var _ = require('lodash');
-var mongoose = require('../lib/mongoose');
+var JsDiff = require('diff');
 var Handlebars = require('handlebars');
+var mandrill = require('mandrill-api/mandrill');
 
+var mongoose = require('../lib/mongoose');
 var messageText = require('../data/message');
+var acceptMsg = fs.readFileSync('./data/acceptMessage.hbs', {encoding: 'utf8'});
 var senators = require('../data/senators');
 
+var mandrillClient = new mandrill.Mandrill(process.env.MANDRILL_APIKEY || '026t-Soj1CcaN0FPMNd0HA');
+
 var messageTmpl = Handlebars.compile(messageText);
+var acceptsMsgTmpl = Handlebars.compile(acceptMsg);
 
 var messageSchema = new mongoose.Schema({
   firebaseId: {
@@ -42,12 +48,60 @@ var messageSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  token: {
+    type: String
+  },
   status: {
     type: String,
+    default: 'pending'
   },
   sentLog: {
     type: Object,
   }
+});
+
+messageSchema.pre('save', function (next) {
+  if (!this.token) {
+    this.token = Math.random().toString(36).substr(10);
+  }
+  next();
+});
+
+messageSchema.set('toJSON', {
+  transform: function(doc, ret, options) {
+    delete ret.token;
+    return ret;
+  }
+});
+
+messageSchema.virtual('diff').get(function () {
+  
+  var message = this;
+
+  var district = parseInt(message.district);
+  var matchedSenator = senators[district - 1];
+
+  var orgMessage = messageTmpl({
+    message: message,
+    senator: matchedSenator
+  }).replace(/\\n/g, '\n');
+
+  var diffs = JsDiff.diffWords(orgMessage, message.messageBody);
+
+  var diff = _.reduce(diffs, function(result, diff) {
+    if (diff.added || diff.removed) {
+      return result + diff.count || 0;
+    } else {
+      return result;
+    }
+  }, 0);
+
+  return diff;
+
+});
+
+messageSchema.virtual('acceptLink').get(function () {
+  return 'http://posprzatajmyreklamy.pl/messages/' + this._id + '/moderate?token=' + this.token;
 });
 
 messageSchema.statics.isEmailUsed = function(email, cb) {
@@ -83,27 +137,65 @@ messageSchema.statics.blockEmailDuplicates = function(param) {
 
 };
 
-messageSchema.statics.getMessageDiff = function(message) {
+messageSchema.methods.send = function(cb) {
+  
+  var message = this;
 
-  var district = parseInt(message.district);
-  var matchedSenator = senators[district - 1];
-
-  var orgMessage = messageTmpl({
-    message: message,
-    senator: matchedSenator
-  }).replace(/\\n/g, '\n');
-
-  var diffs = JsDiff.diffWords(orgMessage, message.messageBody);
-
-  var diffN = _.reduce(diffs, function(result, diff) {
-    if (diff.added || diff.removed) {
-      return result + diff.count || 0;
-    } else {
-      return result;
+  mandrillClient.messages.send({
+    'message': {
+      'text': message.messageBody,
+      'subject': message.messageTitle,
+      'from_email': 'kontakt@posprzatajmyreklamy.pl',
+      'from_name': message.fromName,
+      'to': [{
+              'email': message.toEmail ,
+              'name': message.toName,
+              'type': 'to'
+          }],
+      'headers': {
+          'Reply-To': message.fromEmail
+      },
+      'auto_html': false
     }
-  }, 0);
+}, function(result) {
+    message.status = 'send-success';
+    message.sentLog = result;
+    cb(null, result);    
+  }, function(err) {
+    message.status = 'send-failure';
+    message.sentLog = err;
+    cb(err);
+  });
 
-  return diffN;
+};
+
+messageSchema.methods.sendToModeration = function(cb) {
+  var message = this;
+
+  message.status = 'modarate-waiting';
+  message.token = Math.random().toString(36).substr(6);
+
+  mandrillClient.messages.send({
+    'message': {
+      'text': acceptsMsgTmpl({message: message}),
+      'subject': 'List do senatora - wymagana akceptacji',
+      'from_email': 'do-not-reply@posprzatajmyreklamy.pl',
+      'from_name': 'PosprzatajmyReklamy.pl',
+      'to': [{
+        'email': 'kontakt@posprzatajmyreklamy.pl' ,
+        'type': 'to'
+      }],
+      'auto_html': false
+    }
+  }, function(result) {
+    console.log('Acceptance mail sent ok!');
+    console.log(result);
+    cb(null);    
+  }, function(err) {
+    console.log('Acceptance mail sent failure!');
+    console.log(err);
+    cb(err);
+  });
 
 };
 
