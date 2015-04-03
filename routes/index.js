@@ -1,6 +1,8 @@
-var Message = require('../models/message');
+var fs = require('fs');
 var express = require('express');
-var messageSource = require('../data/message')
+
+var Message = require('../models/message');
+var senatorMsg = fs.readFileSync('./data/senatorMessage.hbs', {encoding: 'utf8'});
 var senators = require('../data/senators');
 var districts = require('../data/districts');
 
@@ -11,14 +13,14 @@ router.get('/', function(req, res, next) {
   Message.where({}).count(function(err, count) {
     if (err) {
       return next(err);
-    };
+    }
     res.locals.counter = count;
     next();
   });
 }, function(req, res, next) {
     res.render('index', { 
       title: 'Express',
-      messageTmpl: messageSource,
+      messageTmpl: senatorMsg.replace(/\n/g, '\\n'),
       senatorsData: JSON.stringify(senators),
       districtsData: JSON.stringify(districts)
     });

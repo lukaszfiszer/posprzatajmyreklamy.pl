@@ -6,13 +6,13 @@ var mandrill = require('mandrill-api/mandrill');
 
 var config = require('../config');
 var mongoose = require('../lib/mongoose');
-var messageText = require('../data/message');
+var senatorMsg = fs.readFileSync('./data/senatorMessage.hbs', {encoding: 'utf8'});
 var acceptMsg = fs.readFileSync('./data/acceptMessage.hbs', {encoding: 'utf8'});
 var senators = require('../data/senators');
 
 var mandrillClient = new mandrill.Mandrill(config.mandrill.apiKey);
 
-var messageTmpl = Handlebars.compile(messageText);
+var senatorMsgTmpl = Handlebars.compile(senatorMsg);
 var acceptsMsgTmpl = Handlebars.compile(acceptMsg);
 
 var messageSchema = new mongoose.Schema({
@@ -82,7 +82,7 @@ messageSchema.virtual('diff').get(function () {
   var district = parseInt(message.district);
   var matchedSenator = senators[district - 1];
 
-  var orgMessage = messageTmpl({
+  var orgMessage = senatorMsgTmpl({
     message: message,
     senator: matchedSenator
   }).replace(/\\n/g, '\n');
