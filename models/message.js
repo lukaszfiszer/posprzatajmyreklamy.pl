@@ -101,7 +101,7 @@ messageSchema.virtual('diff').get(function () {
 });
 
 messageSchema.virtual('acceptLink').get(function () {
-  return 'http://posprzatajmyreklamy.pl/messages/' + this._id + '/moderate?token=' + this.token;
+  return 'http://www.posprzatajmyreklamy.pl/messages/' + this._id + '/moderate?token=' + this.token;
 });
 
 messageSchema.statics.isEmailUsed = function(email, cb) {
