@@ -4,12 +4,13 @@ var JsDiff = require('diff');
 var Handlebars = require('handlebars');
 var mandrill = require('mandrill-api/mandrill');
 
+var config = require('../config');
 var mongoose = require('../lib/mongoose');
 var messageText = require('../data/message');
 var acceptMsg = fs.readFileSync('./data/acceptMessage.hbs', {encoding: 'utf8'});
 var senators = require('../data/senators');
 
-var mandrillClient = new mandrill.Mandrill(process.env.MANDRILL_APIKEY || '026t-Soj1CcaN0FPMNd0HA');
+var mandrillClient = new mandrill.Mandrill(config.mandrill.apiKey);
 
 var messageTmpl = Handlebars.compile(messageText);
 var acceptsMsgTmpl = Handlebars.compile(acceptMsg);

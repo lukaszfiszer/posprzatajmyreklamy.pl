@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+
+var Messages = require('../models/message');
+var async = require('async');
+
+Messages.find({
+  status: 'modarate-waiting'
+}, function(err, messages) {
+
+  if (!messages.length) {
+    console.log('No pending messages found!');
+    process.exit();
+    return;
+  }
+  
+  console.log('Found', messages.length, 'pending messages');
+  
+  async.each(messages, function(message, callback) {
+    message.sendToModeration(callback);
+  }, function(err){
+      if (err) {
+        console.log('Error');
+        console.log(err);
+      } else {
+        console.log('Done!');
+        process.exit();
+      }
+  });
+
+});
