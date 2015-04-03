@@ -16,7 +16,12 @@ Messages.find({
   console.log('Found', messages.length, 'pending messages');
   
   async.each(messages, function(message, callback) {
-    message.sendToModeration(callback);
+    message.sendToModeration(function(err) {
+      if (err) {
+        return callback(err);
+      }
+      message.save(callback);
+    });
   }, function(err){
       if (err) {
         console.log('Error');
