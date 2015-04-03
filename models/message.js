@@ -1,4 +1,12 @@
+var JsDiff = require('diff');
+var _ = require('lodash');
 var mongoose = require('../lib/mongoose');
+var Handlebars = require('handlebars');
+
+var messageText = require('../data/message');
+var senators = require('../data/senators');
+
+var messageTmpl = Handlebars.compile(messageText);
 
 var messageSchema = new mongoose.Schema({
   firebaseId: {
@@ -72,6 +80,30 @@ messageSchema.statics.blockEmailDuplicates = function(param) {
     });
 
   };
+
+};
+
+messageSchema.statics.getMessageDiff = function(message) {
+
+  var district = parseInt(message.district);
+  var matchedSenator = senators[district - 1];
+
+  var orgMessage = messageTmpl({
+    message: message,
+    senator: matchedSenator
+  }).replace(/\\n/g, '\n');
+
+  var diffs = JsDiff.diffWords(orgMessage, message.messageBody);
+
+  var diffN = _.reduce(diffs, function(result, diff) {
+    if (diff.added || diff.removed) {
+      return result + diff.count || 0;
+    } else {
+      return result;
+    }
+  }, 0);
+
+  return diffN;
 
 };
 
