@@ -1,6 +1,7 @@
 var fs = require('fs');
 var express = require('express');
 
+var config = require('../config');
 var Message = require('../models/message');
 var senatorMsg = fs.readFileSync('./data/senatorMessage.hbs', {encoding: 'utf8'});
 var senators = require('../data/senators');
@@ -14,7 +15,7 @@ router.get('/', function(req, res, next) {
     if (err) {
       return next(err);
     }
-    res.locals.counter = count;
+    res.locals.counter = count + config.counterStart;
     next();
   });
 }, function(req, res, next) {
