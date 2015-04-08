@@ -3,6 +3,7 @@ var express = require('express');
 var Handlebars = require('handlebars');
 var Message = require('../models/message');
 var senators = require('../data/senators');
+var districts = require('../data/districts');
 
 var messagesRouter = express.Router();
 
@@ -67,6 +68,51 @@ messagesRouter.get('/:id/moderate', function(req, res, next) {
         });
       });
     }
+
+  });
+
+});
+
+messagesRouter.get('/stats', function(req, res, next) {
+
+  Message.mapReduce({
+    
+    verbose: true,
+    map: function() {
+      if (this.district) {
+        emit(parseInt(this.district), 1);
+      }
+    },
+
+    reduce: function(key, values) {
+      return Array.sum(values);
+    }
+
+  }, function (err, results, stats) {
+    if (err) {
+      return next(err);
+    }
+    
+    res.send(_.map(results, function(result) {
+      
+      var senator = _.findWhere(senators, {
+        id: result._id
+      });
+      
+      var district = _.findWhere(districts, {
+        id: result._id
+      });
+
+      return {
+        districtId: result._id,
+        districtName: district.text,
+        districtArea: district.content,
+        messagesCount: result.value,
+        senatorName: senator.name,
+        senatorEmail: senator.email,
+      };
+      
+    }));
 
   });
 
