@@ -1,5 +1,5 @@
 {
-  "name": "posprzatajmyreklamy.pl",
+  "name": "uratujciedrzewa.pl",
   "description": "Strona akcji PosprzątajReklamy.pl",
   "author": "Łukasz Fiszer",
   "version": "1.0.0",
@@ -10,7 +10,7 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MiastoJestNasze/posprzatajmyreklamy.pl"
+    "url": "https://github.com/MiastoJestNasze/uratujciedrzewa.pl"
   },
   "dependencies": {
     "async": "^0.9.0",

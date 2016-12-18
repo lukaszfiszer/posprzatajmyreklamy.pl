@@ -102,7 +102,7 @@ messageSchema.virtual('diff').get(function () {
 });
 
 messageSchema.virtual('acceptLink').get(function () {
-  return 'http://www.posprzatajmyreklamy.pl/messages/' + this._id + '/moderate?token=' + this.token;
+  return 'http://www.uratujciedrzewa.pl/messages/' + this._id + '/moderate?token=' + this.token;
 });
 
 messageSchema.statics.isEmailUsed = function(email, cb) {
@@ -146,7 +146,7 @@ messageSchema.methods.send = function(cb) {
     'message': {
       'text': message.messageBody,
       'subject': message.messageTitle,
-      'from_email': 'kontakt@posprzatajmyreklamy.pl',
+      'from_email': 'kontakt@uratujciedrzewa.pl',
       'from_name': message.fromName,
       'to': [{
               'email': message.toEmail ,
@@ -180,10 +180,10 @@ messageSchema.methods.sendToModeration = function(cb) {
     'message': {
       'text': acceptsMsgTmpl({message: message}),
       'subject': 'List do senatora - wymagana akceptacji',
-      'from_email': 'do-not-reply@posprzatajmyreklamy.pl',
-      'from_name': 'PosprzatajmyReklamy.pl',
+      'from_email': 'do-not-reply@uratujciedrzewa.pl',
+      'from_name': 'uratujciedrzewa.pl',
       'to': [{
-        'email': 'kontakt@posprzatajmyreklamy.pl' ,
+        'email': 'kontakt@uratujciedrzewa.pl' ,
         'type': 'to'
       }],
       'auto_html': false
@@ -201,4 +201,3 @@ messageSchema.methods.sendToModeration = function(cb) {
 };
 
 var Message = module.exports = mongoose.model('Message', messageSchema);
-

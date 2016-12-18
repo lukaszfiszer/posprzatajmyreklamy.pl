@@ -5,11 +5,6 @@
 
     Łukasz Fiszer -- JS Dev -- Miasto Jest Nasze
 
-# THANKS
-
-    Karina Koziej, Wojtek Wagner, Emilka Piotrowska,
-    Janek Śpiewak, Ola Stępień, Wojtek Kacperski, Filip Karner
-
 # TECHNOLOGY COLOPHON
 
     Node, Express.js, MongoDB,
