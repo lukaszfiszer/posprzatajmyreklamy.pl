@@ -1,7 +1,7 @@
 module.exports = {
   
   mongo: {
-    url: process.env.MONGOLAB_URI || process.env.MONGOSOUP_URL || 'mongodb://localhost/uratujciedrzewa'
+    url: process.env.MONGODB_URI || 'mongodb://localhost/uratujciedrzewa'
   },
 
   mandrill: {
