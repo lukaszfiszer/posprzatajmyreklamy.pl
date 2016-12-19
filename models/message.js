@@ -164,6 +164,7 @@ messageSchema.methods.send = function(cb) {
   return sendgrid.send(email, function(err, result) {
     message.status = 'send-success';
     message.sentLog = result;
+    console.log(err || result);
     return cb(err, result);
   });
 
@@ -201,6 +202,7 @@ messageSchema.methods.sendToModeration = function(cb) {
   return sendgrid.send(email, function(err, result) {
     message.status = 'send-success';
     message.sentLog = result;
+    console.log(err || result);
     return cb(err, result);
   });
 
