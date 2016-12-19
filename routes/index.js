@@ -19,9 +19,9 @@ router.get('/', function(req, res, next) {
     next();
   });
 }, function(req, res, next) {
-    res.render('index', { 
+    res.render('index', {
       title: 'Express',
-      messageTmpl: senatorMsg.replace(/\n/g, '\\n'),
+      messageTmpl: senatorMsg.replace(/\n|\r\n/g, '\\n'),
       senatorsData: JSON.stringify(senators),
       districtsData: JSON.stringify(districts)
     });

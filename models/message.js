@@ -2,7 +2,9 @@ var fs = require('fs');
 var _ = require('lodash');
 var JsDiff = require('diff');
 var Handlebars = require('handlebars');
-var mandrill = require('mandrill-api/mandrill');
+var juice     = require('juice');
+
+var sendgrid = require('../lib/sendgrid');
 
 var config = require('../config');
 var mongoose = require('../lib/mongoose');
@@ -10,17 +12,10 @@ var senatorMsg = fs.readFileSync('./data/senatorMessage.hbs', {encoding: 'utf8'}
 var acceptMsg = fs.readFileSync('./data/acceptMessage.hbs', {encoding: 'utf8'});
 var senators = require('../data/senators');
 
-var mandrillClient = new mandrill.Mandrill(config.mandrill.apiKey);
-
 var senatorMsgTmpl = Handlebars.compile(senatorMsg);
 var acceptsMsgTmpl = Handlebars.compile(acceptMsg);
 
 var messageSchema = new mongoose.Schema({
-  firebaseId: {
-    type: String,
-    unique: true,
-    sparse: true
-  },
   district: {
     type: Number,
     required: true,
@@ -76,7 +71,7 @@ messageSchema.set('toJSON', {
 });
 
 messageSchema.virtual('diff').get(function () {
-  
+
   var message = this;
 
   var district = parseInt(message.district);
@@ -121,11 +116,11 @@ messageSchema.statics.isEmailUsed = function(email, cb) {
 };
 
 messageSchema.statics.blockEmailDuplicates = function(param) {
-  
+
   param = param || 'fromEmail';
 
   return function(req, res, next) {
-    
+
     Message.isEmailUsed(req.body[param], function(err, isUsed) {
       if (isUsed) {
         res.status(409).send('Sender email already used');
@@ -139,33 +134,37 @@ messageSchema.statics.blockEmailDuplicates = function(param) {
 };
 
 messageSchema.methods.send = function(cb) {
-  
+
   var message = this;
 
-  mandrillClient.messages.send({
-    'message': {
-      'text': message.messageBody,
-      'subject': message.messageTitle,
-      'from_email': 'kontakt@uratujciedrzewa.pl',
-      'from_name': message.fromName,
-      'to': [{
-              'email': message.toEmail ,
-              'name': message.toName,
-              'type': 'to'
-          }],
-      'headers': {
-          'Reply-To': message.fromEmail
-      },
-      'auto_html': false
-    }
-}, function(result) {
+  var options = {
+    "html": true,
+    "important": false,
+    "track_opens": false,
+    "track_clicks": false,
+    "auto_text": true, // Convert html to text
+    "auto_html": false, // Do not convert text to html
+    "inline_css": true,
+    "url_strip_qs": true,
+    "preserve_recipients": false,
+    "view_content_link": true,
+    "html": juice(message.messageBody),
+    "text": message.messageBody,
+    "subject": message.messageTitle,
+    "from": 'kontakt@uratujciedrzewa.pl',
+    "fromName": message.fromName,
+    "headers": {
+      "Reply-To": message.fromEmail
+    },
+    "to": message.toEmail,
+    "toname": message.toName,
+  };
+
+  var email = new sendgrid.Email(options);
+  return sendgrid.send(email, function(err, result) {
     message.status = 'send-success';
     message.sentLog = result;
-    cb(null, result);    
-  }, function(err) {
-    message.status = 'send-failure';
-    message.sentLog = err;
-    cb(err);
+    return cb(err, result);
   });
 
 };
@@ -176,26 +175,33 @@ messageSchema.methods.sendToModeration = function(cb) {
   message.status = 'modarate-waiting';
   message.token = Math.random().toString(36).substr(6);
 
-  mandrillClient.messages.send({
-    'message': {
-      'text': acceptsMsgTmpl({message: message}),
-      'subject': 'List do senatora - wymagana akceptacji',
-      'from_email': 'do-not-reply@uratujciedrzewa.pl',
-      'from_name': 'uratujciedrzewa.pl',
-      'to': [{
-        'email': 'kontakt@uratujciedrzewa.pl' ,
-        'type': 'to'
-      }],
-      'auto_html': false
-    }
-  }, function(result) {
-    console.log('Acceptance mail sent ok!');
-    console.log(result);
-    cb(null);    
-  }, function(err) {
-    console.log('Acceptance mail sent failure!');
-    console.log(err);
-    cb(err);
+  var message = this;
+
+  var options = {
+    "html": true,
+    "important": false,
+    "track_opens": false,
+    "track_clicks": false,
+    "auto_text": true, // Convert html to text
+    "auto_html": false, // Do not convert text to html
+    "inline_css": true,
+    "url_strip_qs": true,
+    "preserve_recipients": false,
+    "view_content_link": true,
+    "html": juice(message.messageBody),
+    "text": message.messageBody,
+    "subject": "List do senatora - wymagana akceptacji",
+    "from": "do-not-reply@uratujciedrzewa.pl",
+    "fromName": "uratujciedrzewa.pl",
+    "to": "kontakt@uratujciedrzewa.pl",
+    "toname": "Uratujcie Drzewa"
+  };
+
+  var email = new sendgrid.Email(options);
+  return sendgrid.send(email, function(err, result) {
+    message.status = 'send-success';
+    message.sentLog = result;
+    return cb(err, result);
   });
 
 };

@@ -22,11 +22,12 @@
     "express": "~4.12.2",
     "handlebars": "^3.0.1",
     "hbs": "~2.9.0",
+    "juice": "^1.10.0",
     "lodash": "^3.6.0",
-    "mandrill-api": "^1.0.41",
     "mongoose": "^4.0.1",
     "morgan": "~1.5.1",
     "request": "^2.54.0",
+    "sendgrid": "^2.0.0",
     "serve-favicon": "~2.2.0"
   },
   "engines": {
