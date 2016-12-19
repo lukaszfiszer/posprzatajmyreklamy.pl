@@ -5,7 +5,7 @@ module.exports = {
   },
 
   sendgrid: {
-    apiKey: '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'
+    apiKey: process.env.SENDGRID_API
   },
 
   counterStart: parseInt(process.env.COUNTER_START) || 0
