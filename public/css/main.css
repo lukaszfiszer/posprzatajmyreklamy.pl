@@ -139,3 +139,27 @@ section .container h1:after {
   }
 
 }
+
+.btn-fb {
+  color: #FFF;
+  background-color: #3b5998;
+}
+
+.btn-fb:hover {
+  color: #eee;
+  background-color: #3b5998;
+}
+
+.btn-twitter {
+  color: #FFF;
+  background-color: #1da1f2;
+}
+
+.btn-twitter:hover {
+  color: #eee;
+  background-color: #1da1f2;
+}
+
+.btn-text {
+  line-height: 44px;
+}
